@@ -11,7 +11,7 @@ Edit guidance: keep the actual tool list inside the `<tools></tools>` block belo
 - `scripts/runner.ts`: Bun implementation backing `runner`; run `bun scripts/runner.ts --help`.
 - `bin/sleep`: Sleep shim that enforces the 30s ceiling; run `bin/sleep --help`.
 - `xcp`: Xcode project/workspace helper; run `xcp --help`.
-- `oracle`: CLI to bundle prompt + files for another AI; run `npx -y @steipete/oracle --help`.
+- `oracle`: Ask a smart AI to review code and find bugs; you must call `npx -y @steipete/oracle --help` first.
 - `mcporter`: MCP launcher for any registered MCP server; run `npx mcporter`.
 - `iterm`: Full TTY terminal via MCP; run `npx mcporter iterm`.
 - `firecrawl`: MCP-powered site fetcher to Markdown; run `npx mcporter firecrawl`.
