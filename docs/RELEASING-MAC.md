@@ -24,13 +24,13 @@ Reusable checklist distilled from recent VibeTunnel, Trimmy, and CodexBar releas
 
 ## Versioning Rules
 - Single source of truth (e.g., `version.xcconfig` or `Info.plist`): set both `MARKETING_VERSION` and `CURRENT_PROJECT_VERSION`.
-- Build numbers **must** monotonically increase; Sparkle compares `CFBundleVersion`, not the marketing string.
+- Build numbers **must** monotonically increase; Sparkle compares `CFBundleVersion`, not the marketing string. Always bump the build before tagging/publishing and keep the appcast `sparkle:version` in sync.
 - Pre-release suffixes (beta/rc) belong in the source-of-truth version **before** running release scripts—avoid double-suffix mistakes.
 - For npm/pnpm packages, every beta/rc publish must use a new semver with a suffix (e.g., `1.2.3-beta.1`); npm will not let you overwrite an existing version/tag.
 - If there are sibling surfaces (e.g., web UI), align their versions with the macOS app before releasing.
 
 ## Prep: Review History & Changelog
-- Verify the latest published release/tag on GitHub (ensure assets are present and match the appcast).
+- Verify the latest published release/tag on GitHub (ensure assets are present and match the appcast) **before starting any new release work**.
 - Read all commits since that tag (including merges) and skim the diff to capture user-visible changes.
 - Curate the changelog before anything else:
   - Focus on user-facing changes only; omit other projects, tests, or internal tweaks unless they materially affect users.
@@ -70,6 +70,7 @@ for v in /Volumes/*; do [[ $v == */<App>* ]] && hdiutil detach "$v" -force; done
   - Avoid `unzip` when testing locally; use `ditto -x -k <zip> /Applications` to prevent `._*` files that break signatures.
 
 ## Sparkle Signing & Appcast
+**Policy:** Ship full updates only (no deltas). Remove any `<sparkle:deltas>` blocks before publishing the appcast.
 1) Generate signature for the shipping artifact (DMG or ZIP):
 ```bash
 sign_update -f "$SPARKLE_PRIVATE_KEY_FILE" path/to/<App>-<ver>.dmg --account "${SPARKLE_ACCOUNT:-default}"
@@ -79,19 +80,11 @@ sign_update -f "$SPARKLE_PRIVATE_KEY_FILE" path/to/<App>-<ver>.dmg --account "${
    - `sparkle:version` == build number (unique and increasing)
    - `sparkle:edSignature` matches the signature you just generated
 3) If scripts exist (`generate-appcast.sh`, `make_appcast.sh`, etc.), use them; otherwise edit appcast XML carefully using the existing entry as a template.
-4) Validate signatures:
+4) Validate signatures and feed:
    - Run any helper (`./scripts/validate-sparkle-signature.sh`) if provided.
-   - Manual check (replace placeholders):
-     ```bash
-     curl -L -o /tmp/app.dmg "<enclosure-url>"
-     sign_update -f "$SPARKLE_PRIVATE_KEY_FILE" /tmp/app.dmg --account "${SPARKLE_ACCOUNT:-default}"
-     # Compare printed signature to sparkle:edSignature in appcast entry
-     ```
-   - Confirm appcast serves (200/OK) and contains the new entry:
-     ```bash
-     curl -I "<appcast-url>"
-     curl "<appcast-url>" | grep "<App>-<ver>"
-     ```
+   - `sign_update -p <zip>` output matches `sparkle:edSignature` in the appcast.
+   - `curl -I "<enclosure-url>"` returns 200.
+   - `curl "<appcast-url>" | head` shows the new build number/signature/length.
    - (Optional) Verify update flow using the previous installed build and Sparkle UI.
 
 ## GitHub Release & Tag
@@ -115,6 +108,7 @@ sign_update -f "$SPARKLE_PRIVATE_KEY_FILE" path/to/<App>-<ver>.dmg --account "${
 - For multi-surface apps, confirm version strings match across app UI and companion surfaces.
 - GitHub release notes verified: header is `<App> <version>` only; body matches changelog bullets and order.
 - Sparkle verification complete: signatures match, appcast entry correct, update tested from prior build when possible.
+- Appcast/cache note: if Sparkle still reports the old version, relaunch/wait briefly (feed caching) before retagging; fix build/appcast first. The appcast is the single source of truth for published versions—keep it authoritative; avoid parallel “tracking tables.”
 
 ## Final Sign-Off (agent handoff)
 - Re-read the GitHub release page: title exactly `<App> <version>`; body matches the curated changelog (no missing/extra bullets).
