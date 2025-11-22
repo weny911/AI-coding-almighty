@@ -49,6 +49,7 @@ Peter (@steipete) owns this project. Say hi when you start!
 
 ## Git
 - Default allowed: `git status`, `git diff`, `git log`; `git push` only when the user asks.
+- `git checkout` is allowed when reviewing PRs or when the user explicitly asks you to switch branches.
 - Forbidden unless explicit: destructive commands (`reset --hard`, `checkout --`, `clean`, `restore`, `revert`, `rm`, etc.).
 - Commits here: use `./scripts/committer "msg" path…`; don’t run `git add` yourself. In repos without the helper (e.g., outside agent-scripts), use normal git—don’t copy the helper.
 - “Rebase” in chat = consent to `git rebase` (and continue/abort) with `RUNNER_THE_USER_GAVE_ME_CONSENT=1`, via runner/git shim.
@@ -110,4 +111,4 @@ Peter (@steipete) owns this project. Say hi when you start!
 - MCP launcher (`npx mcporter`) that can run any registered MCP server; pass the server name as the final arg (`npx mcporter <server>`). Common endpoints: `iterm` for TTY control, `firecrawl` for site-to-Markdown fetching, `XcodeBuildMCP` for Xcode tooling. use `npx mcporter --help` to list available servers.
 
 ### gh
-- GitHub CLI for PRs, CI logs, releases, and repo queries; run `gh help`.
+- GitHub CLI for PRs, CI logs, releases, and repo queries; run `gh help`. When someone shares a GitHub issue/PR URL (full or relative like `/pull/5`), use `gh` to read it—do not web-search. Examples: `gh issue view <url> --comments -R owner/repo` and `gh pr view <url> --comments --files -R owner/repo`. If only a number is given, derive the repo from the URL or current checkout and still fetch details via `gh`.
