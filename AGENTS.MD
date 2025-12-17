@@ -79,6 +79,29 @@ READ ~/Projects/agent-scripts/AGENTS.MD BEFORE ANYTHING (skip if missing).
 
 ## Tools
 
+Read `~/Projects/agent-scripts/tools.md` for the full tool catalog if it exists.
+
+### bird
+- Twitter/X CLI at `~/Projects/bird/bird`. Post tweets, reply, read threads, search.
+- Key commands: `bird tweet "<text>"`, `bird reply <tweet-id-or-url> "<text>"`, `bird read <url>`, `bird replies <url>`, `bird thread <url>`, `bird search "<query>"`, `bird mentions`, `bird whoami`.
+- Uses Firefox cookies by default; pass `--firefox-profile` to switch profiles.
+
+### sonoscli
+- Sonos speaker control CLI at `~/Projects/sonoscli/bin/sonos`. Built in Go.
+- Key commands: `sonos discover`, `sonos status --name "Room"`, `sonos play/pause/stop --name "Room"`, `sonos volume set --name "Room" 25`, `sonos group status`, `sonos group join --name "A" --to "B"`.
+- **Known issue**: SSDP multicast may fail on some networks; use `--ip <speaker-ip>` as fallback. Default HTTP client can be slow due to keep-alives; a fix (DisableKeepAlives) is pending.
+- Supports Spotify via SMAPI: `sonos smapi search --service "Spotify" --category tracks "query"`.
+
+### peekaboo
+- Screenshot and screen inspection CLI at `~/Projects/Peekaboo`. Capture screens, windows, apps; OCR; click automation.
+- Key commands: `peekaboo capture`, `peekaboo see`, `peekaboo click`, `peekaboo list`, `peekaboo tools`, `peekaboo permissions status`.
+- Requires Screen Recording + Accessibility permissions.
+- See `~/Projects/Peekaboo/docs/commands/` for detailed command docs.
+
+### sweetistics
+- Twitter/X analytics app at `~/Projects/sweetistics`. Tauri desktop app.
+- Use for deeper Twitter data analysis beyond what `bird` provides.
+
 ### runner / bin/runner / scripts/runner.ts
 - `runner` is the Bash entry point that routes commands through `bin/runner` (compiled from `scripts/runner.ts`) to enforce timeouts, git policy, and trash-safe deletes. Rebuild `bin/runner` via `bun build scripts/runner.ts --compile --outfile bin/runner`.
 - Runner is for agents; when you show commands to users, print the raw command (without `./runner`).
