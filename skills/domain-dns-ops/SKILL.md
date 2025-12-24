@@ -39,9 +39,17 @@ This skill is a thin router: use `~/Projects/manager` as truth, run the repo scr
 - **Cloudflare token sanity**: `source ~/.profile` (prefer `CLOUDFLARE_API_TOKEN`; `CF_API_TOKEN` fallback).
 - **Disable “Block AI bots”**: `cd ~/Projects/manager && source profile && bin/cloudflare-ai-bots status` / `bin/cloudflare-ai-bots disable`.
 
+## After edits (commit/push)
+
+If you changed anything in `~/Projects/manager` (docs, worker, scripts, mappings): commit there too.
+
+1. Review: `cd ~/Projects/manager && git status && git diff`
+2. Stage: `git add <paths>`
+3. Commit (Conventional Commits): `git commit -m "feat: …"` / `fix:` / `docs:` / `chore:`
+4. Push only when explicitly asked: `git push origin main`
+
 ## Guardrails
 
 - Don’t touch `.md` lore domains or `steipete.md` unless explicitly asked; check `~/Projects/manager/DOMAINS.md`.
 - Confirm registrar before debugging CF “invalid nameservers” (often “wrong registrar”).
 - Prefer reversible steps; verify after each change (NS → DNS → redirect).
-
