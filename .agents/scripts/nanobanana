@@ -1,0 +1,101 @@
+#!/usr/bin/env -S uv run --quiet --script
+# /// script
+# requires-python = ">=3.12,<3.13"
+# dependencies = ["google-genai", "Pillow"]
+# ///
+"""
+nanobanana - Image editing with Gemini's Nano Banana Pro API
+Usage: nanobanana <image-path> "<prompt>" [output-path]
+
+Examples:
+  nanobanana photo.jpg "remove the people in the background"
+  nanobanana selfie.png "add a sunset background" sunset_selfie.png
+  nanobanana food.jpg "make it look more appetizing"
+
+Requires: GEMINI_API_KEY environment variable
+"""
+
+import base64
+import os
+import sys
+from io import BytesIO
+
+from google import genai
+from PIL import Image
+
+
+def edit_image(image_path: str, prompt: str, output_path: str | None = None) -> str | None:
+    """Edit an image using Gemini's image generation capabilities."""
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        print("Error: GEMINI_API_KEY environment variable not set", file=sys.stderr)
+        sys.exit(1)
+
+    client = genai.Client(api_key=api_key)
+
+    # Load image
+    print(f"📷 Loading: {image_path}")
+    try:
+        image = Image.open(image_path)
+    except Exception as e:
+        print(f"Error loading image: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    # Generate output path if not provided
+    if output_path is None:
+        base, ext = os.path.splitext(image_path)
+        output_path = f"{base}_edited{ext}"
+
+    print(f"🍌 Sending to Nano Banana Pro...")
+    print(f"   Prompt: {prompt}")
+
+    try:
+        response = client.models.generate_content(
+            model="gemini-2.5-flash-image",
+            contents=[prompt, image],
+            config=genai.types.GenerateContentConfig(response_modalities=["TEXT", "IMAGE"]),
+        )
+    except Exception as e:
+        print(f"Error calling Gemini API: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    # Extract and save the edited image
+    for part in response.candidates[0].content.parts:
+        if part.inline_data is not None:
+            # Data may be bytes or base64 string depending on response
+            image_data = part.inline_data.data
+            if isinstance(image_data, str):
+                image_data = base64.b64decode(image_data)
+
+            edited_image = Image.open(BytesIO(image_data))
+            edited_image.save(output_path)
+            print(f"✅ Saved: {output_path}")
+            return output_path
+        elif hasattr(part, "text") and part.text:
+            print(f"💬 Response: {part.text}")
+
+    print("❌ No image in response", file=sys.stderr)
+    print(f"   Full response: {response}", file=sys.stderr)
+    return None
+
+
+def main():
+    if len(sys.argv) < 3:
+        print(__doc__)
+        sys.exit(1)
+
+    image_path = sys.argv[1]
+    prompt = sys.argv[2]
+    output_path = sys.argv[3] if len(sys.argv) > 3 else None
+
+    if not os.path.exists(image_path):
+        print(f"Error: Image not found: {image_path}", file=sys.stderr)
+        sys.exit(1)
+
+    result = edit_image(image_path, prompt, output_path)
+    if result is None:
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
