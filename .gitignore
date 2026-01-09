@@ -1,6 +1,3 @@
 .DS_Store
-bin/*
-!bin/
-!bin/git
-!bin/rm
-skills/.system/
+.agents
+.spec-workflow
