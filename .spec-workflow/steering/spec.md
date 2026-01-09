@@ -11,7 +11,7 @@
 - R: Research / 研究（AI 执行）
   - 扫描现有代码库，定位相关模块、入口、依赖与约束。
   - 压缩上下文：仅保留与需求直接相关的信息。
-  - 输出“现状摘要”，必须可直接支撑规划与评审。
+  - 输出"现状摘要"，必须可直接支撑规划与评审。
   - 使用 Reptile RepoMix 形成 Plan 输入（如果该工具/流程可用）。
 - P: Plan / 规划（AI 执行 + 人类介入）
   - 基于现状摘要生成 `PLAN.md`，明确目标、范围、步骤与验证方式。
@@ -36,7 +36,7 @@
 - 不要删除/重命名意外内容；一旦发现不明文件或变更，先停下并询问用户。
 - 不做仓库级的搜替脚本；编辑保持小、可审，优先局部修改。
 - 避免手动 `git stash`；若 Git 在 pull/rebase 中自动 stash，可接受。
-- 用户输入命令（如 “pull and push”）即视为同意执行该命令。
+- 用户输入命令（如 "pull and push"）即视为同意执行该命令。
 - 大型审查时使用：`git --no-pager diff --color=never`，便于稳定输出。
 - 多代理协作时：编辑前检查 `git status/diff`；提交保持小且语义清晰。
 - PR 规范（每次开发完成后，提醒 AI 和用户）：
@@ -99,7 +99,7 @@
   - Scheduler 必须加控制：1）上次调度未执行完时跳过本次；2）分布式锁，多实例时全局同一时刻只有一个执行。
 
 ## Spec Workflow
-- 当 `.spec-workflow/steering/spec.md` 有内容时，需要自动将本文件规范同步至 `.spec-workflow/steering/spec.md`，确保规范大体一致。
+- 当 `.spec-workflow/steering/spec.md` 有内容时，需要自动将本文件规范同步至 `.spec-workflow/steering/spec.md`，确保规范一致。
 
 ## .gitignore 自动管理
 - Agent 在每次操作前应检查 `.gitignore` 文件，确保以下条目存在（若不存在则自动添加）：
