@@ -35,14 +35,6 @@
       "command": "npx",
       "args": ["-y", "@executeautomation/playwright-mcp-server"]
     },
-    "postgres": {
-      "command": "npx",
-        "args": [
-            "-y",
-            "@modelcontextprotocol/server-postgres",
-            "postgresql://postgres:postgres@host:5432/postgres"
-      ]
-    },
     "spec-workflow": {
       "command": "npx",
       "args": ["-y", "@pimzino/spec-workflow-mcp@latest", "/your/project/path"]
