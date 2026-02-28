@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <!-- Background -->
+  <rect width="1600" height="900" fill="#FFFFFF" />
+  
+  <!-- Abstract Decorative Shapes -->
+  <circle cx="150" cy="150" r="80" fill="#A29BFE" opacity="0.6" />
+  <circle cx="1450" cy="750" r="120" fill="#00CEC9" opacity="0.4" />
+  <rect x="1300" y="100" width="100" height="100" rx="20" fill="#FAB1A0" transform="rotate(15 1350 150)" />
+  <path d="M100,700 Q150,600 200,700 T300,700" stroke="#FFEAA7" stroke-width="12" fill="none" stroke-linecap="round" />
+  
+  <!-- Floating Bubbles -->
+  <circle cx="400" cy="200" r="15" fill="white" opacity="0.3" />
+  <circle cx="1200" cy="600" r="25" fill="white" opacity="0.2" />
+  <circle cx="250" cy="450" r="10" fill="white" opacity="0.4" />
+  
+  <!-- Cartoon Stars -->
+  <g fill="#FDCB6E">
+    <path d="M800,100 l10,30 h30 l-25,20 l10,30 l-25,-20 l-25,20 l10,-30 l-25,-20 h30 z" transform="translate(-50, 0)" />
+    <path d="M1400,400 l8,24 h24 l-20,16 l8,24 l-20,-16 l-20,16 l8,-24 l-20,-16 h24 z" />
+    <path d="M200,800 l6,18 h18 l-15,12 l6,18 l-15,-12 l-15,12 l6,-18 l-15,-12 h18 z" />
+  </g>
+
+  <!-- Main Text Group -->
+  <g transform="translate(800, 450)">
+    <!-- Main Text -->
+    <text
+      x="0"
+      y="0"
+      font-family="'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', 'Arial Rounded MT Bold', cursive"
+      font-weight="900"
+      font-size="140"
+      text-anchor="middle"
+      fill="#000000"
+      stroke="#2D3436"
+      stroke-width="6"
+      letter-spacing="2"
+    >AI-coding-almighty</text>
+    
+    <!-- Text Highlights -->
+    <path d="M-550,-40 Q-540,-50 -520,-45" stroke="white" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.8" />
+    <path d="M480,-40 Q490,-50 510,-45" stroke="white" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.8" />
+  </g>
+
+  <!-- Hand-drawn Scribbles -->
+  <path d="M700,550 C750,580 850,580 900,550" stroke="#55E6C1" stroke-width="10" fill="none" stroke-dasharray="20,10" stroke-linecap="round" />
+  <path d="M1000,250 L1050,300 M1050,250 L1000,300" stroke="#FF7675" stroke-width="12" stroke-linecap="round" />
+  
+  <!-- Corner Accents -->
+  <g opacity="0.5">
+    <circle cx="50" cy="50" r="5" fill="white" />
+    <circle cx="80" cy="50" r="5" fill="white" />
+    <circle cx="50" cy="80" r="5" fill="white" />
+    <circle cx="1550" cy="850" r="5" fill="white" />
+    <circle cx="1520" cy="850" r="5" fill="white" />
+    <circle cx="1550" cy="820" r="5" fill="white" />
+  </g>
+</svg>
