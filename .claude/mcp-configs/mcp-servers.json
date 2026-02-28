@@ -1,20 +1,38 @@
 {
   "mcpServers": {
-    "mysql-local": {
+    "mysql": {
       "command": "npx",
       "args": [
-        "-y",
-        "@neigezhujiayi/mysql-mcp-server",
+        "universal-db-mcp",
+        "--type",
+        "mysql",
         "--host",
-        "sh-cdb-s1m3xqps.sql.tencentcdb.com",
+        "<MYSQL__HOST>",
         "--port",
-        "25531",
+        "<MYSQL__PORT>",
         "--user",
-        "kaimen_develop",
+        "<MYSQL__USER>",
         "--password",
-        "your-password-here",
+        "<MYSQL__PASSWORD>",
         "--database",
-        "kaimen_refactor_test"
+        "<MYSQL__DATABASE>"
+      ]
+    },
+    "redis-cache": {
+      "command": "npx",
+      "args": [
+        "universal-db-mcp",
+        "--type",
+        "redis",
+        "--host",
+        "<REDIS_HOST>",
+        "--port",
+        "<REDIS_PORT>",
+        "--password",
+        "<REDIS_PASSWORD>",
+        "--database",
+        "<REDIS_DATABASE>",
+        "--danger-allow-write"
       ]
     },
     "context7": {
@@ -22,22 +40,49 @@
       "args": [
         "-y",
         "@upstash/context7-mcp@latest"
-      ]
+      ],
+      "env": {
+        "UPSTASH_REDIS_REST_URL": "<UPSTASH_REDIS_REST_URL>",
+        "UPSTASH_REDIS_REST_TOKEN": "<UPSTASH_REDIS_REST_TOKEN>"
+      }
     },
     "nanobanana": {
       "command": "uvx",
-      "args": ["nanobanana-mcp-server@latest"],
+      "args": [
+        "nanobanana-mcp-server@latest"
+      ],
       "env": {
-        "GEMINI_API_KEY": "your_gemini_api_key_here"
+        "GEMINI_API_KEY": "<GEMINI_API_KEY>"
       }
     },
     "playwright": {
       "command": "npx",
-      "args": ["-y", "@executeautomation/playwright-mcp-server"]
+      "args": [
+        "-y",
+        "@executeautomation/playwright-mcp-server"
+      ]
     },
     "spec-workflow": {
       "command": "npx",
-      "args": ["-y", "@pimzino/spec-workflow-mcp@latest", "/your/project/path"]
+      "args": [
+        "-y",
+        "@pimzino/spec-workflow-mcp@latest",
+        "<SPEC_WORKFLOW_PROJECT_PATH>"
+      ]
+    },
+    "Figma": {
+      "url": "https://mcp.figma.com/mcp",
+      "headers": {}
+    },
+    "pencil": {
+      "name": "pencil",
+      "transport": "stdio",
+      "command": "<PENCIL_MCP_BINARY_PATH>",
+      "args": [
+        "--app",
+        "cursor"
+      ],
+      "env": {}
     }
   }
 }
